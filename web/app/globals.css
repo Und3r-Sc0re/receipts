@@ -1,0 +1,88 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg: #0b0a09;
+  --color-elev: #141210;
+  --color-elev2: #1c1916;
+  --color-ink: #f5f3ef;
+  --color-dim: #a29c94;
+  --color-faint: #6b655d;
+  --color-line: rgba(245, 243, 239, 0.09);
+  --color-accent: #e0a44a;
+  --color-accent-soft: rgba(224, 164, 74, 0.14);
+
+  --font-sans: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, "SF Mono", monospace;
+}
+
+:root {
+  /* Support scale — used ONLY on the meter and red flags. */
+  --s-1: #d95c4a;
+  --s-2: #dd8a3d;
+  --s-3: #d3b545;
+  --s-4: #86ab57;
+  --s-5: #4fa571;
+  color-scheme: dark;
+}
+
+* {
+  border-color: var(--color-line);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Faint paper texture on the page, fixed and non-interactive. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.5;
+  background:
+    radial-gradient(120% 80% at 50% -10%, rgba(224, 164, 74, 0.06), transparent 60%),
+    radial-gradient(90% 60% at 100% 100%, rgba(224, 164, 74, 0.04), transparent 55%);
+}
+
+/* Dashed receipt divider. */
+.receipt-rule {
+  height: 1px;
+  background-image: linear-gradient(
+    to right,
+    var(--color-line) 0,
+    var(--color-line) 6px,
+    transparent 6px,
+    transparent 12px
+  );
+  background-size: 12px 1px;
+  background-repeat: repeat-x;
+}
+
+/* Perforated top/bottom edge of the receipt panel. */
+.perf-edge {
+  height: 12px;
+  background:
+    radial-gradient(circle at 6px 12px, transparent 6px, var(--color-elev) 6px) repeat-x;
+  background-size: 18px 12px;
+}
+.perf-edge--bottom {
+  background:
+    radial-gradient(circle at 6px 0px, transparent 6px, var(--color-elev) 6px) repeat-x;
+  background-size: 18px 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
