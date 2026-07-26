@@ -6,8 +6,8 @@ import { buildMessages } from "./prompt";
 import { coerceResult, type AnalyzeResult } from "./analyze-schema";
 
 const NIM_BASE_URL = "https://integrate.api.nvidia.com/v1";
-const PRIMARY_MODEL = "meta/llama-3.3-70b-instruct";
-const FALLBACK_MODEL = "nvidia/llama-3.3-nemotron-super-49b-v1";
+const PRIMARY_MODEL = "nvidia/llama-3.3-nemotron-super-49b-v1";
+const FALLBACK_MODEL = "meta/llama-3.1-8b-instruct";
 
 export function hasKey(): boolean {
   return Boolean(process.env.NVIDIA_API_KEY);
@@ -19,7 +19,7 @@ function getClient(): OpenAI {
     client = new OpenAI({
       baseURL: NIM_BASE_URL,
       apiKey: process.env.NVIDIA_API_KEY,
-      timeout: 130_000,
+      timeout: 45_000,
       maxRetries: 0,
     });
   }

@@ -4,10 +4,10 @@ import { analyzeWithNim, hasKey } from "@/lib/nim";
 import { findMockByText } from "@/lib/examples";
 
 export const runtime = "nodejs";
-// NIM free-tier inference can take 1-3 minutes under load. Requires Fluid
-// Compute enabled on the Vercel project (Settings > Functions) to take effect
-// beyond the default 10s/60s caps.
-export const maxDuration = 300;
+// Typical NIM free-tier latency is 15-30s; this is headroom for load
+// spikes. Requires Fluid Compute enabled on the Vercel project (Settings >
+// Functions) to take effect beyond the default 10s/60s caps.
+export const maxDuration = 120;
 
 const CORS_HEADERS: Record<string, string> = {
   // Public, secret-free, rate-limited endpoint. Permissive CORS lets the
