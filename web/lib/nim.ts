@@ -19,7 +19,7 @@ function getClient(): OpenAI {
     client = new OpenAI({
       baseURL: NIM_BASE_URL,
       apiKey: process.env.NVIDIA_API_KEY,
-      timeout: 150_000,
+      timeout: 130_000,
       maxRetries: 0,
     });
   }
