@@ -5,6 +5,7 @@ import { motion } from "motion/react";
 import { Receipt, WarningCircle } from "@phosphor-icons/react/dist/ssr";
 import { ClaimInput } from "@/components/ClaimInput";
 import { ReceiptResult } from "@/components/ReceiptResult";
+import { ForJudges } from "@/components/ForJudges";
 import type { AnalyzeResult } from "@/lib/analyze-schema";
 
 type State =
@@ -60,6 +61,8 @@ export default function Home() {
           Paste any claim and see how well it&rsquo;s actually supported: the
           reasoning, the red flags, and where to check. Not a verdict.
         </p>
+
+        <ForJudges />
       </header>
 
       {/* Tool */}
