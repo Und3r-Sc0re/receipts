@@ -7,8 +7,8 @@ Highlight any claim — a tweet on X, a Reddit comment, a news headline — and 
 **Receipts is a reasoning aid, not a fact-checker. It never says "true" or "false."** It assesses how well-supported a claim is *as written*, exposes its reasoning, and hands you the tools to decide for yourself.
 
 There are two ways in:
-1. **Web app** — zero install, works instantly. The link judges can open and try.
-2. **Chrome extension** — select text on *any* website and check it in place.
+1. **Web app** — zero install, works instantly: **https://receiptscheck.vercel.app**
+2. **Chrome extension** — select text on *any* website and check it in place. No build step required — see below.
 
 Both share one backend and one analysis contract.
 
@@ -38,20 +38,25 @@ The key is read **only** server-side inside `web/app/api/analyze/route.ts`. It i
 
 ## Load the Chrome extension
 
+**For judges — no build step, no npm install.** `extension/dist/` is a prebuilt, ready-to-load bundle already committed to this repo, pointed at the live deployment (`https://receiptscheck.vercel.app`).
+
+1. Download this repo — either `git clone https://github.com/Und3r-Sc0re/receipts.git`, or on the GitHub page: **Code → Download ZIP**, then unzip.
+2. In Chrome, go to `chrome://extensions`
+3. Turn on **Developer mode** (top right)
+4. Click **Load unpacked** and select the `extension/dist` folder
+5. Go to any page (a tweet, a Reddit thread, a news article), select some text → click the floating **"⧉ Check receipts"** button (or right-click → *Check receipts on selection*)
+
+That's it — the extension calls the live backend directly, same as the web app.
+
+### If you're modifying the extension's source
+
 ```bash
 cd extension
 npm install
-npm run icons     # generates the icon PNGs (first time only)
-npm run build     # bundles into extension/dist/
+npm run build     # re-bundles src/ into dist/
 ```
 
-Then in Chrome:
-1. Go to `chrome://extensions`
-2. Turn on **Developer mode** (top right)
-3. Click **Load unpacked** and select `extension/dist`
-4. Select text on any page → click the floating **"⧉ Check receipts"** button (or right-click → *Check receipts on selection*).
-
-By default the extension calls `http://localhost:3000` (the local dev server). To point it at your deployed app, edit `API_BASE` in `extension/src/config.ts`, make sure the deployed origin is in `host_permissions` in `manifest.json`, and rebuild.
+By default `extension/src/config.ts` points `API_BASE` at the deployed URL. For local testing against `npm run dev`, change it to `http://localhost:3000`, make sure that origin is in `host_permissions` in `manifest.json`, and rebuild.
 
 ---
 
@@ -68,7 +73,7 @@ The `/api/analyze` route runs as a Vercel serverless function and sets permissiv
 
 ## How the AI is used (the prompting pipeline)
 
-The analysis is a single structured call to an open model (NVIDIA NIM, `meta/llama-3.3-70b-instruct`, OpenAI-compatible), engineered to be a reasoning tool rather than a verdict machine:
+The analysis is a single structured call to an open model (NVIDIA NIM, `nvidia/llama-3.3-nemotron-super-49b-v1` with a faster `meta/llama-3.1-8b-instruct` fallback, OpenAI-compatible), engineered to be a reasoning tool rather than a verdict machine:
 
 - **System prompt** (`web/lib/prompt.ts`) establishes an evidence-and-reasoning role that is explicitly forbidden from issuing true/false verdicts, moralizing, or inventing facts.
 - **Red-flag taxonomy** — the model classifies weaknesses against a fixed set (correlation-vs-causation, missing-baseline, cherry-picking, vague-quantifier, unnamed-source, appeal-to-authority, unfalsifiable, and more) so results are consistent and legible.

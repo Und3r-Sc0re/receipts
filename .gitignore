@@ -8,10 +8,9 @@ web/.next/
 web/out/
 web/build/
 
-# extension build output
-extension/dist/
-extension/**/*.js
-!extension/build.mjs
+# extension build output — dist/ IS committed on purpose so judges can
+# load the extension with no build step (git clone -> Load unpacked).
+# Rebuild with `npm run build` in extension/ after any src/ change.
 
 # env — never commit real keys
 .env
