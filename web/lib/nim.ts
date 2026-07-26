@@ -7,7 +7,7 @@ import { coerceResult, type AnalyzeResult } from "./analyze-schema";
 
 const NIM_BASE_URL = "https://integrate.api.nvidia.com/v1";
 const PRIMARY_MODEL = "meta/llama-3.3-70b-instruct";
-const FALLBACK_MODEL = "nvidia/llama-3.1-nemotron-70b-instruct";
+const FALLBACK_MODEL = "nvidia/llama-3.3-nemotron-super-49b-v1";
 
 export function hasKey(): boolean {
   return Boolean(process.env.NVIDIA_API_KEY);
@@ -19,6 +19,8 @@ function getClient(): OpenAI {
     client = new OpenAI({
       baseURL: NIM_BASE_URL,
       apiKey: process.env.NVIDIA_API_KEY,
+      timeout: 150_000,
+      maxRetries: 0,
     });
   }
   return client;
@@ -35,7 +37,7 @@ export async function analyzeWithNim(
       model,
       messages,
       temperature: 0.2,
-      max_tokens: 1200,
+      max_tokens: 700,
       response_format: { type: "json_object" },
     });
 

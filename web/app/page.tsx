@@ -123,6 +123,9 @@ function LoadingReceipt() {
           <span className="font-mono text-[11px] text-faint">reading…</span>
         </div>
         <div className="receipt-rule mb-6" />
+        <p className="mb-6 font-mono text-[11px] leading-relaxed text-faint">
+          Free-tier inference can take up to a minute or two. Worth the wait.
+        </p>
         <div className="grid gap-3">
           {[90, 70, 82, 55, 76, 64].map((w, i) => (
             <motion.div
